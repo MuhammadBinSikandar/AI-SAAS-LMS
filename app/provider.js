@@ -1,9 +1,8 @@
 "use client"
-import { USER_TABLE } from '@/configs/schema';
 import { useUser } from '@clerk/nextjs'
+import axios from 'axios';
 import React, { useEffect } from 'react'
-import { db } from '@/configs/db';
-import { eq } from 'drizzle-orm';
+
 
 function Provider({ children }) {
     const { user } = useUser();
@@ -12,19 +11,21 @@ function Provider({ children }) {
     }, [user]);
 
     const CheckIsNewUser = async () => {
-        const result = await db.select()
-            .from(USER_TABLE)
-            .where(eq(USER_TABLE.email, user?.primaryEmailAddress?.emailAddress));
-        console.log(result);
-        if (result?.length == 0) {
-            const userResp = await db.insert(USER_TABLE)
-                .values({
-                    name: user?.fullName,
-                    email: user?.primaryEmailAddress?.emailAddress,
-                })
-                .returning({ id: USER_TABLE.id });
-            console.log(userResp);
-        }
+        // const result = await db.select()
+        //     .from(USER_TABLE)
+        //     .where(eq(USER_TABLE.email, user?.primaryEmailAddress?.emailAddress));
+        // console.log(result);
+        // if (result?.length == 0) {
+        //     const userResp = await db.insert(USER_TABLE)
+        //         .values({
+        //             name: user?.fullName,
+        //             email: user?.primaryEmailAddress?.emailAddress,
+        //         })
+        //         .returning({ id: USER_TABLE.id });
+        //     console.log(userResp);
+        // }
+        const res = await axios.post('/api/create-user', {user:user});
+        console.log(res.data);
     }
     return (
         <div>
