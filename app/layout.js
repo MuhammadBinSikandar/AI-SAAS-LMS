@@ -1,6 +1,7 @@
 import "./globals.css";
 import {Outfit} from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import Provider from "./provider";
 
 const outfit=Outfit({
   variable: "--font-outfit",
@@ -19,7 +20,9 @@ export default function RootLayout({ children }) {
       <body
         className={outfit.className}
       >
-        {children}
+        <Provider>
+          {children}
+        </Provider>
       </body>
     </html>
     </ClerkProvider>
