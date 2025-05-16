@@ -1,4 +1,3 @@
-import { varchar } from "drizzle-orm/mysql-core";
 import { pgTable, serial, varchar, boolean  } from 'drizzle-orm/pg-core';
 
 
