@@ -1,5 +1,7 @@
-import { json } from 'drizzle-orm/gel-core';
-import { pgTable, serial, varchar, boolean  } from 'drizzle-orm/pg-core';
+import { integer, json } from 'drizzle-orm/gel-core';
+import { pgTable, serial, varchar, boolean
+       ,  text  
+       } from 'drizzle-orm/pg-core';
 
 
 export const USER_TABLE= pgTable('users',
@@ -21,5 +23,14 @@ export const STUDY_MATERIAL_TABLE= pgTable('studyMaterial',
         courseLayout: json(),
         createdBy: varchar().notNull(),
         status:varchar().default('Generating'),
+    }
+)
+
+export const ChapterNotes= pgTable('chapterNotes',
+    {
+        id: serial().primaryKey(),
+        courseId:varchar().notNull(),
+        chapterId: integer().notNull(),
+        notes: text()
     }
 )
