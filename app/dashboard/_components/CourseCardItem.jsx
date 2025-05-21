@@ -20,7 +20,7 @@ function CourseCardItem({ course }) {
                 </div>
                 <div className='flex justify-end items-center mt-3'>
                     {course?.status == 'Generating'
-                        ? <h2 className='text-sm p-1 px-2 rounded-full flex items-center gap-2 bg-gray-400 text-white'> <RefreshCw className='h-5 w-5' /> Generating...</h2>
+                        ? <h2 className='text-sm p-1 px-2 rounded-full flex items-center gap-2 bg-gray-400 text-white'> <RefreshCw className='h-5 w-5 animate-spin' /> Generating...</h2>
                         : <Button className={'bg-blue-500'}>View</Button>}
                 </div>
             </div>
