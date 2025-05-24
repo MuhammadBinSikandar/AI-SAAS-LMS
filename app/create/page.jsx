@@ -36,6 +36,7 @@ function Create() {
         });
         setLoading(false);
         router.replace('/dashboard');
+        toast("Your course Content is being generated, refresh the page after few minutes");
         console.log(result.data.result.resp);
     }
 
