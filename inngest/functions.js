@@ -46,28 +46,25 @@ export const GenerateNotes = inngest.createFunction(
         const { course } = event.data;
         const notesResult = await step.run("Generate notes", async () => {
             const Chapters = course?.courseLayout?.chapters;
-            let index = 0;
-            Chapters.forEach(async (chapter) => {
+            for (let index = 0; index < Chapters.length; index++) {
+                const chapter = Chapters[index];
                 const PROMPT = "Generate exam material detail content for each chapter. Make sure to cover all the topic points in the content. Make sure to give content in HTML (Do not add HTMLKL, Head, Body, Title tag), The chapters. Provide detailed content for all the topics of the chapter " + JSON.stringify(chapter);
                 const result = await generateNotes(PROMPT);
-                const aiResponse = result.response.text();
-                await db.insert(ChapterNotes)
-                    .values({
-                        courseId: course?.courseId,
-                        chapterId: index,
-                        notes: aiResponse
-                    })
-                index= index + 1;
-            })
+                const aiResponse = await result.response.text();
+                await db.insert(ChapterNotes).values({
+                    courseId: course?.courseId,
+                    chapterId: index,
+                    notes: aiResponse
+                });
+            }
             return 'Completed';
-
-        })
+        });
         const UpdateCourseStatusResult = await step.run("Update course status to ready", async () => {
             const result = await db.update(STUDY_MATERIAL_TABLE)
                 .set({ status: 'Ready' })
                 .where(eq(STUDY_MATERIAL_TABLE.courseId, course?.courseId))
-                
+
             return "Success";
         })
-})
+    })
 
